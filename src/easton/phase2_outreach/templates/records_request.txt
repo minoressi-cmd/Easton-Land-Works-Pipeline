@@ -1,0 +1,26 @@
+Public Records Request — Tax Delinquent Property List, {county_name} County
+
+Hello {contact_name_or_office},
+
+I'm writing to request a copy of the current tax-delinquent property list for {county_name} County under {statute_citation}.
+
+Specifically I'm requesting the list of parcels that are currently delinquent on property taxes, including (where available):
+- Parcel ID / account number
+- Owner of record
+- Mailing address
+- Property situs address
+- Delinquent amount
+- Acreage (if maintained in your records)
+
+Electronic delivery (CSV, Excel, or PDF) emailed to this address is preferred. If there is a fee for producing the list, please let me know the amount and the accepted payment method before processing the request.
+
+If your office is not the correct custodian of this record, I would appreciate a referral to the appropriate office.
+
+Thank you for your time.
+
+Best regards,
+
+{sender_name}
+{sender_business_name}
+{sender_email}
+{sender_phone}

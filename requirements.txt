@@ -1,0 +1,29 @@
+# Core
+python-dotenv>=1.0.0
+pyyaml>=6.0.1
+click>=8.1.7         # CLI for scripts/run_phase*.py
+rich>=13.7.0         # Pretty logging + tables
+
+# Phase 1 — scraping county sites
+requests>=2.31.0
+beautifulsoup4>=4.12.0
+lxml>=5.0.0
+playwright>=1.40.0   # For JS-heavy county sites
+
+# Phase 2 — email
+postmarker>=1.0      # Postmark SDK; swap for resend or boto3-ses if you change providers
+
+# Phase 3 — file parsing + filtering
+pandas>=2.2.0
+openpyxl>=3.1.2      # .xlsx
+pdfplumber>=0.10.0   # text PDFs
+pytesseract>=0.3.10  # scanned PDFs (requires tesseract installed via brew)
+pdf2image>=1.17.0    # for OCR pipeline
+# boto3>=1.34.0      # uncomment if using AWS Textract instead of tesseract
+
+# Phase 4 — Zamplo
+httpx>=0.27.0        # Modern async HTTP client for Zamplo API
+
+# Dev
+pytest>=8.0.0
+ruff>=0.4.0

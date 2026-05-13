@@ -1,0 +1,44 @@
+# Filter rules applied in Phase 3 + final acre cut applied in Phase 4.
+
+# Owner-name patterns that mark a row as an "entity" rather than an individual.
+# We flag these but DO NOT delete them — kept in leads_filtered with is_entity=true.
+# Patterns are matched case-insensitively as whole words or token boundaries.
+entity_patterns:
+  - LLC
+  - L.L.C.
+  - L L C
+  - INC
+  - INCORPORATED
+  - CORP
+  - CORPORATION
+  - LP
+  - L.P.
+  - LLP
+  - LTD
+  - LIMITED
+  - COMPANY
+  - CO.
+  - HOLDINGS
+  - PROPERTIES
+  - ENTERPRISES
+  - PARTNERSHIP
+  # Trusts — flagged but Easton may still want to mail these
+  - TRUST
+  - TRUSTEE
+  - TR
+
+# Whether to exclude trusts from the default outbound mailing list.
+# `false` = trusts are flagged as entities but stay in the pipeline.
+exclude_trusts_from_mailers: false
+
+# Acre range — applied in Phase 4 after Zamplo enriches acreage.
+acre_range:
+  min: 5
+  max: 20
+  # If true, rows with no acreage data (even after Zamplo) are kept for manual review.
+  # If false, they're dropped.
+  keep_unknown_acreage: true
+
+# Minimum delinquent amount — drops "this lot owes $4" parcels that aren't worth mailing.
+# Set to 0 to disable.
+min_delinquent_amount_usd: 50

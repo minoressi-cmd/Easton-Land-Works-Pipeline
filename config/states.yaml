@@ -1,0 +1,69 @@
+# State-level configuration for the records-request workflow.
+# Each state has a different role-title for the person who manages tax-delinquent property
+# and a different public records statute to cite when asking for the list.
+#
+# Add a new state by appending an entry below. Mark `active: true` to include it in runs.
+
+WY:
+  state_name: Wyoming
+  role_title: "County Treasurer"
+  list_typically_free: true
+  statute_citation: "Wyo. Stat. § 16-4-202 (Public Records Act)"
+  notes: "Treasurers handle tax sales. Most counties publish delinquent list ~30 days before annual sale (typically September)."
+  active: true
+
+MT:
+  state_name: Montana
+  role_title: "County Treasurer"
+  list_typically_free: true
+  statute_citation: "Mont. Code Ann. § 2-6-1006"
+  notes: "Tax sale list usually published in July. Treasurers responsive to email."
+  active: false
+
+CO:
+  state_name: Colorado
+  role_title: "County Treasurer"
+  list_typically_free: false
+  statute_citation: "Colo. Rev. Stat. § 24-72-203 (Colorado Open Records Act)"
+  notes: "Many counties charge a small fee (~$25-100) for the list. Tax sales in October-November."
+  active: false
+
+TX:
+  state_name: Texas
+  role_title: "Tax Assessor-Collector"
+  list_typically_free: false
+  statute_citation: "Tex. Gov't Code § 552.001 (Public Information Act)"
+  notes: "Texas is large (254 counties). Many counties use third-party servicers (LGBS, MVBA, Linebarger) — those handle the lists, NOT the assessor directly."
+  active: false
+
+FL:
+  state_name: Florida
+  role_title: "Tax Collector"
+  list_typically_free: true
+  statute_citation: "Fla. Stat. § 119.07 (Public Records Act)"
+  notes: "Tax certificate sales annually around May/June. Lists usually published online for free."
+  active: false
+
+GA:
+  state_name: Georgia
+  role_title: "Tax Commissioner"
+  list_typically_free: false
+  statute_citation: "O.C.G.A. § 50-18-71 (Open Records Act)"
+  notes: "Tax Commissioner role consolidates assessor + collector. Monthly tax sales in many counties."
+  active: false
+
+TN:
+  state_name: Tennessee
+  role_title: "Trustee"
+  list_typically_free: true
+  statute_citation: "Tenn. Code Ann. § 10-7-503 (Public Records Act)"
+  notes: "Tax sales handled by Chancery Court; Trustee maintains the delinquent list."
+  active: false
+
+MS:
+  state_name: Mississippi
+  role_title: "Chancery Clerk"
+  list_typically_free: false
+  statute_citation: "Miss. Code Ann. § 25-61-1"
+  notes: "Chancery Clerks (not Tax Collectors) handle tax-forfeited land in MS. Annual tax sale last Monday in August."
+  active: false
