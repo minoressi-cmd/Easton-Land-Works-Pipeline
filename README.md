@@ -13,6 +13,56 @@ Target acre range: **5–20 acres** (Easton Land Works standard).
 
 ---
 
+## What it does
+
+### Phase 1 — County Discovery
+
+Builds a database of every county contact (Treasurer, Tax Collector, etc.) in each active state. Targets Wyoming's 23 counties first as the initial test bed. The scraper hits the Wyoming County Treasurers Association site to pull contact names, emails, and phone numbers. A US Census FIPS file seeds the county list with all ~3,143 counties nationally.
+
+State-level config lives in `config/states.yaml`. Wyoming (`WY`) is currently active; Montana, Colorado, Texas, Florida, Georgia, Tennessee, and Mississippi are staged but inactive. Each entry records the correct role title for that state's tax official and the public records statute to cite in the request.
+
+### Phase 2 — Records Requests
+
+Emails each county treasurer (or equivalent) asking for their tax-delinquent parcel list. Uses Postmark for delivery and enforces a daily send cap (`EMAIL_DAILY_CAP` in `.env`) to avoid triggering spam filters. Every send is logged to the `outreach_log` table, which tracks status through: `sent → replied → attachment received`. Email templates live in plain-text files under `phase2_outreach/templates/` so copy can be edited without touching Python.
+
+### Phase 3 — Parse & Filter
+
+Handles whatever file format the county sends back — CSV, XLSX, or PDF. Each format has its own adapter that normalizes the raw rows into a canonical schema before writing to `leads_raw`.
+
+After parsing, rows go through two filters:
+
+- **Entity filter:** flags LLC, Corp, Trust, and similar owner-name patterns (defined in `config/filters.yaml`). Entities are flagged with `is_entity = 1` but **not deleted** — they remain in `leads_filtered` so Easton can mail trusts or family LLCs later if the strategy changes.
+- **Delinquency floor:** drops parcels with less than `min_delinquent_amount_usd` owed (default $50) to skip trivial liens not worth mailing.
+
+### Phase 4 — Zamplo Enrichment
+
+Pushes filtered leads to the Zamplo property data API to pull back acreage, estimated value, owner details, and GIS data. The **5–20 acre filter is applied here**, not in Phase 3, because most county tax-delinquent lists do not include acreage. Leads that survive this final cut come out as `ready_for_mailer = 1` in `leads_enriched`.
+
+### Data store
+
+Single SQLite file at `data/pipeline.db`. Each phase reads from the previous phase's output table and writes to its own, so any phase can be re-run independently without redoing earlier work:
+
+```
+counties → outreach_log → leads_raw → leads_filtered → leads_enriched
+  (P1)          (P2)         (P3 in)      (P3 out)          (P4)
+```
+
+### What's implemented vs. stubbed
+
+| Component | Status |
+|---|---|
+| SQLite schema + connection helpers | Done |
+| Config loaders (states, filters) | Done |
+| Entity-pattern classifier (`classify_entity`) | Done |
+| Census FIPS county ingest | Stub |
+| Wyoming scraper | Stub |
+| Email sender (Postmark) | Stub |
+| CSV / XLSX / PDF adapters | Stub |
+| Row normalizer | Stub |
+| Zamplo API client | Stub |
+
+---
+
 ## Quick start
 
 ```bash
